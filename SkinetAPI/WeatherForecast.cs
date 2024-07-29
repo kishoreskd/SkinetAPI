@@ -11,3 +11,4 @@ namespace SkinetAPI
         public string? Summary { get; set; }
     }
 }
+
