@@ -2,6 +2,6 @@
 {
     public class ProductType : AuditableEntity
     {
-        public string ProductTypeName { get; set; }
+        public string Name { get; set; }
     }
 }
