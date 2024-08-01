@@ -23,7 +23,9 @@ namespace Infrastructure
             {
                 if (!context.ProductBrands.Any())
                 {
-                    var brandData = File.ReadAllText("../Infrastructure/SeedData/brand.json");
+                    Console.WriteLine("Current Directory: " + Directory.GetCurrentDirectory());
+
+                    var brandData = File.ReadAllText("../Infrastructure/SeedData/brands.json");
                     var brands = JsonSerializer.Deserialize<List<ProductBrand>>(brandData);
 
                     await context.AddRangeAsync(brands);
@@ -41,7 +43,7 @@ namespace Infrastructure
 
                 if (!context.Products.Any())
                 {
-                    var productData = File.ReadAllText("../Infrastructure/SeedData/types.json");
+                    var productData = File.ReadAllText("../Infrastructure/SeedData/products.json");
                     var products = JsonSerializer.Deserialize<List<Product>>(productData);
 
                     await context.AddRangeAsync(products);

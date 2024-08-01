@@ -10,7 +10,7 @@ namespace Infrastructure.Config
         {
             builder.HasKey(e => e.Id);
             builder.Property(e => e.Name).IsRequired().HasMaxLength(100);
-            builder.Property(e => e.Description).IsRequired().HasMaxLength(180);
+            builder.Property(e => e.Description).IsRequired();
             builder.Property(e => e.Price).HasColumnType("decimal(18,2)");
             builder.Property(e => e.PictureURL).IsRequired();
             builder.HasOne(e => e.ProductBrand).WithMany()

@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="SeedData\brands.json" />
+    <None Remove="SeedData\products.json" />
+    <None Remove="SeedData\types.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7">
       <PrivateAssets>all</PrivateAssets>
@@ -24,7 +30,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="SeedData\" />
+    <Resource Include="SeedData\brands.json" />
+    <Resource Include="SeedData\products.json" />
+    <Resource Include="SeedData\types.json" />
   </ItemGroup>
 
 </Project>
