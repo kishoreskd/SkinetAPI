@@ -1,4 +1,6 @@
 using Infrastructure;
+using Infrastructure.Services.GenericRepositoryService;
+using Infrastructure.Services.RepositoryService;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -11,6 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<SkiNetDbContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("SkiNet")));
+builder.Services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
 var app = builder.Build();
 
 
@@ -42,9 +45,10 @@ using (var scope = app.Services.CreateScope())
         await SeedDataService.SeedAsync(context, loggerFactory);
 
     }
-    catch (Exception)
+    catch (Exception ex)
     {
-
+        var logger = loggerFactory.CreateLogger<Program>();
+        logger.LogError(ex, "An error accured during migration");
         throw;
     }
 }
