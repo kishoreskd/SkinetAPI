@@ -1,10 +1,4 @@
 ﻿using Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Specifications
 {
@@ -14,6 +8,7 @@ namespace Core.Specifications
         {
             AddInclude(e => e.ProductBrand);
             AddInclude(e => e.ProductType);
+            AddOrderBy(e => e.Name);
         }
 
         public ProductsWithTypesAndBrandsSpecification(int id) : base(x => x.Id.Equals(id))

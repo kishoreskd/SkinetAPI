@@ -13,7 +13,6 @@ namespace Core.Specifications
     /// <typeparam name="T"></typeparam>
     public class BaseSpecification<T> : ISpecification<T>
     {
-
         public BaseSpecification()
         {
 
@@ -36,6 +35,9 @@ namespace Core.Specifications
         /// </summary>
         public List<Expression<Func<T, object>>> Includes { get; } = new List<Expression<Func<T, object>>>();
 
+        public Expression<Func<T, object>> OrderBy { get; private set; }
+        public Expression<Func<T, object>> OrderByDescending { get; private set; }
+
 
         /// <summary>
         /// This is method is prodcuted because the deriving class only can allow as to use this method-basically a child class can accesss it
@@ -44,6 +46,16 @@ namespace Core.Specifications
         protected void AddInclude(Expression<Func<T, object>> includeExpression)
         {
             this.Includes.Add(includeExpression);
+        }
+
+        protected void AddOrderBy(Expression<Func<T, object>> orderByExpression)
+        {
+            this.OrderBy = orderByExpression;
+        }
+
+        protected void AddOrderByDecending(Expression<Func<T, object>> orderByDescExpression)
+        {
+            this.OrderByDescending = orderByDescExpression;
         }
     }
 }

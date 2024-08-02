@@ -10,10 +10,6 @@ namespace Infrastructure.Services.RepositoryService
 {
     public interface IGenericRepository<TEntity> where TEntity : BaseEntity
     {
-        Task<TEntity> GetIdAsync(int id);
-        Task<IReadOnlyList<TEntity>> ListAllAsync();
-
-
         Task<TEntity> GetEntityWithSpec(ISpecification<TEntity> spec);
         Task<IReadOnlyList<TEntity>> ListAsync(ISpecification<TEntity> spec);
 
