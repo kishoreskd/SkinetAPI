@@ -34,7 +34,7 @@ namespace SkinetAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ProductToReturnDto>> GetProduct(int id)
-        {   
+        {
             var specification = new ProductsWithTypesAndBrandsSpecification(id);
             Product product = await _productService.GetEntityWithSpec(specification);
 
@@ -44,9 +44,9 @@ namespace SkinetAPI.Controllers
         }
 
         [HttpGet("products")]
-        public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProducts()
+        public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProducts([FromQuery] ProductSpecParams productParams)
         {
-            ISpecification<Product> specification = new ProductsWithTypesAndBrandsSpecification();
+            ISpecification<Product> specification = new ProductsWithTypesAndBrandsSpecification(productParams);
             var products = await _productService.ListAsync(specification);
             var data = _mapper.Map<IReadOnlyList<ProductToReturnDto>>(products);
             return Ok(data);
