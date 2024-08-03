@@ -1,10 +1,6 @@
 using Infrastructure;
-using Infrastructure.Services.GenericRepositoryService;
-using Infrastructure.Services.RepositoryService;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
-using SkinetAPI.Errors;
+using SkinetAPI.Extensions;
 using SkinetAPI.Middleware;
 
 
@@ -14,33 +10,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "SkiNet API", Version = "V1" });
-});
+
 
 builder.Services.AddDbContext<SkiNetDbContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("SkiNet")));
-builder.Services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
-builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
-
-//This order is important because it overrriting the controller [ApiController] attribute behaviours
-//for sending validation error consistently with help of ApiValidationErrorResponse custom object
-builder.Services.Configure<ApiBehaviorOptions>(options =>
-{
-    options.InvalidModelStateResponseFactory = actionContext =>
-    {
-        var errors = actionContext.ModelState
-                     .Where(e => e.Value.Errors.Count > 0)
-                     .SelectMany(e => e.Value.Errors)
-                     .Select(e => e.ErrorMessage)
-                     .ToArray();
-
-        var errorResponse = new ApiValidationErrorResponse() { Errors = errors };
-
-        return new BadRequestObjectResult(errorResponse);
-    };
-});
+//Custom
+builder.Services.AddSwaggerDocumentation();
+builder.Services.ApplicationServices();
 
 var app = builder.Build();
 
@@ -81,11 +57,8 @@ app.UseStaticFiles();
 
 app.UseAuthorization();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(c=> { c.SwaggerEndpoint("/swagger/v1/swagger.json", "SkiNet API V1"); });
-}
+//Custom
+app.UseSwaggerDocumentation();
 
 app.MapControllers();
 
