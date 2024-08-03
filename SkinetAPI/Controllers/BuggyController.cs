@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SkinetAPI.Errors;
 
 namespace SkinetAPI.Controllers
 {
@@ -26,7 +27,7 @@ namespace SkinetAPI.Controllers
         {
             var thing = _context.Products.Find(42);
 
-            if (thing == null) return NotFound();
+            if (thing == null) return NotFound(new ApiResponse(404));
 
             return Ok();
         }
@@ -44,7 +45,7 @@ namespace SkinetAPI.Controllers
         [HttpGet("badrequest")]
         public ActionResult GetBadRequest()
         {
-            return BadRequest();
+            return BadRequest(new ApiResponse(400));
         }
 
         [HttpGet("badrequest/{id}")]
